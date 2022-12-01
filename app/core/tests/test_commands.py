@@ -15,10 +15,22 @@ class CommandTests(SimpleTestCase):
     """ Testing custom Django commands. 
     """
 
-    def test_await_db(self, patched_check):
-        """Test the commnads that awaits the db when starting the app. 
+    def test_await_db_ready(self, patched_check):
+        """Test the commnads that awaits the db when starting the app: database ready. 
         """
         patched_check.return_value = True
         call_command("await_db")
 
         patched_check.assert_called_once_with(database=["default"])
+
+    @patch('time.sleep')
+    def test_await_db_delay(self, patched_sleep, patched_check):
+        """Test the commnads that awaits the db when starting the app: getting OperationalError
+        """
+        patched_check.side_effect = [
+            Psycopg2Error] * 2 + [OperationalError] * 3 * [True]
+
+        call_command("await_db")
+
+        self.assertEqual(patched_check.call_count, 6)
+        patched_check.assert_called_with(database=["default"])
