@@ -28,7 +28,7 @@ class CommandTests(SimpleTestCase):
         """Test the commnads that awaits the db when starting the app: getting OperationalError
         """
         patched_check.side_effect = [
-            Psycopg2Error] * 2 + [OperationalError] * 3 * [True]
+            Psycopg2Error] * 2 + [OperationalError] * 3 + [True]
 
         call_command("await_db")
 
