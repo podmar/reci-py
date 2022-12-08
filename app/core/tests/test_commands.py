@@ -12,11 +12,11 @@ from django.test import SimpleTestCase
 
 @patch('core.management.commands.await_db.Command.check')
 class CommandTests(SimpleTestCase):
-    """ Testing custom Django commands. 
+    """Testing custom Django commands.
     """
 
     def test_await_db_ready(self, patched_check):
-        """Test the commnads that awaits the db when starting the app: database ready. 
+        """Test the commnads that awaits the db when starting the app: database ready.
         """
         patched_check.return_value = True
         call_command("await_db")
@@ -25,7 +25,8 @@ class CommandTests(SimpleTestCase):
 
     @patch('time.sleep')
     def test_await_db_delay(self, patched_sleep, patched_check):
-        """Test the commnads that awaits the db when starting the app: getting OperationalError
+        """Test the commnads that awaits the db when starting the app:
+        getting OperationalError
         """
         patched_check.side_effect = [
             Psycopg2Error] * 2 + [OperationalError] * 3 + [True]

@@ -1,16 +1,14 @@
 """
-Custom Django command to await database. 
+Custom Django command to await database.
 """
 import time
-
 from psycopg2 import OperationalError as Psycopg2OperationalError
-
 from django.db.utils import OperationalError
 from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    """Django command to await database. 
+    """Django command to await database.
     """
 
     def handle(self, *args, **options):
