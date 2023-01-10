@@ -72,7 +72,7 @@ class PublicUserApiTests(TestCase):
             'password': 'testpass123',
             'name': 'Test',
         }
-        res = self.clent(post(TOKEN_URL, payload))
+        res = self.client.post(TOKEN_URL, user_details)
 
         self.assertIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -85,7 +85,7 @@ class PublicUserApiTests(TestCase):
             'email': 'test@example.com',
             'password': 'wrongpassword',
         }
-        res = sefl.clent(post(TOKEN_URL, payload))
+        res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
@@ -97,7 +97,7 @@ class PublicUserApiTests(TestCase):
             'email': 'test@example.com',
             'password': '',
         }
-        res = sefl.clent(post(TOKEN_URL, payload))
+        res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
